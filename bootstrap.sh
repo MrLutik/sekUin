@@ -6,9 +6,15 @@ if [ "$(id -u)" != "0" ]; then
    exit 1
 fi
 
-# Define versions and package names as variables
+# System vars
+ARCHITECTURE=$(uname -m)
+
+# Docker vars
 BASE_IMAGE="python:3.12.2-slim"
 DOCKER_VER="7.0.0"
+DOCKER_COMPOSE_VER="v2.24.6"
+
+# Ansible vars
 ANSIBLE_VER="9.2.0"
 ANSIBLE_TAG="ansible-runner"
 ANSIBLE_DIR="/root/ansible-runner"
@@ -104,10 +110,17 @@ create_ansible_runner() {
     echo "Ansible runner container created."
 }
 
+install_docker_compose() {
+    DOCKER_CONFIG=${DOCKER_CONFIG:-$HOME/.docker}
+    mkdir -p $DOCKER_CONFIG/cli-plugins
+    curl -SL "https://github.com/docker/compose/releases/download/$DOCKER_COMPOSE_VER/docker-compose-linux-$ARCHITECTURE" -o $DOCKER_CONFIG/cli-plugins/docker-compose
+}
+
 main() {
     update_system
     install_prerequisites
     install_docker
+    install_docker_compose
     create_ansible_runner
 }
 
