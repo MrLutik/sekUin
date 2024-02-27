@@ -111,10 +111,13 @@ create_ansible_runner() {
 }
 
 install_docker_compose() {
+    echo "Installing dcoker compose..."
     DOCKER_CONFIG=${DOCKER_CONFIG:-$HOME/.docker}
     mkdir -p $DOCKER_CONFIG/cli-plugins
     curl -SL "https://github.com/docker/compose/releases/download/$DOCKER_COMPOSE_VER/docker-compose-linux-$ARCHITECTURE" -o $DOCKER_CONFIG/cli-plugins/docker-compose
-    mv $DOCKER_CONFIG/cli-plugins/docker-compose /usr/local/bin 
+    mv $DOCKER_CONFIG/cli-plugins/docker-compose /usr/local/bin
+    chmod 755 /usr/local/bin/docker-compose
+    echo "Installed $(docker-compose version)"
 }
 
 main() {
