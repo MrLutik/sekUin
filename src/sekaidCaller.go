@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"os"
 	"os/exec"
 	"syscall"
@@ -17,7 +16,6 @@ func main() {
 	} else {
 		args = append(args, os.Args[1:]...)
 	}
-	fmt.Println("Current PATH:", os.Getenv("PATH"))
 	binary, lookErr := exec.LookPath(binaryName)
 	if lookErr != nil {
 		panic(lookErr)

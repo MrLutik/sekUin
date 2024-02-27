@@ -6,7 +6,7 @@ services:
       context: ./
       dockerfile: sekai.Dockerfile
     volumes:
-      - ./sekai:/
+      - ./sekai:/sekai
     ports:
       - "26657:26657" # RPC
       - "26656:26656" # P2P (gRPC)
@@ -22,7 +22,7 @@ services:
       context: ./
       dockerfile: interx.Dockerfile
     volumes:
-      - ./interx:/
+      - ./interx:/interx
     ports:
       - "11000:11000"
     networks:
@@ -36,8 +36,10 @@ services:
       - ./src:/src
       - ./sekai:/sekai
       - ./interx:/interx
+    entrypoint: ["/entrypoint.sh"]
     command: >
-      sh -c "CGO_ENABLED=0 go build -a -tags netgo -installsuffix cgo -o /sekai/sekaidCaller /src/sekaidCaller.go && CGO_ENABLED=0 go build -a -tags netgo -installsuffix cgo -o /interx/interxdCaller /src/interxdCaller.go"
+      sh -c "ls -lah /src && CGO_ENABLED=0 go build -a -tags netgo -installsuffix cgo -o /sekai/sekaidCaller /src/sekaidCaller.go && ls -lah /sekai && CGO_ENABLED=0 go build -a -tags netgo -installsuffix cgo -o /interx/interxdCaller /src/interxdCaller.go && ls -lah /interx"
+
 networks:
   kiranet:
     name: kiranet
