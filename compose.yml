@@ -1,0 +1,31 @@
+services:
+  sekaid:
+    build:
+      context: ./
+      dockerfile: sekai.Dockerfile
+    volumes:
+      - ./sekai:/sekai
+    ports:
+      - "26657:26657"
+      - "26656:26656"
+    entrypoint: ["/entrypoint.sh"]
+    networks:
+      - kiranet
+
+  interxd:
+    build:
+      context: ./
+      dockerfile: interx.Dockerfile
+    volumes:
+      - ./interx:/interx
+    ports:
+      - "11000:11000"
+    entrypoint: ["/entrypoint.sh"]
+    networks:
+      - kiranet
+
+networks:
+  kiranet:
+    name: kiranet
+    driver: bridge
+
