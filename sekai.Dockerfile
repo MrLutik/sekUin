@@ -17,18 +17,9 @@ RUN wget https://go.dev/dl/go1.22.0.linux-amd64.tar.gz -O /tmp/go.tar.gz && \
 ENV PATH="$PATH:/usr/local/go/bin"
 
 # Cloning sekai repo and install
-RUN git clone -c http.postBuffer=1048576000 --depth 1 https://github.com/KiraCore/sekai.git /sekai && \
+RUN git clone -c http.postBuffer=1048576000 --depth 1 https://github.com/MrLutik/sekai.git /sekai && \
     cd /sekai && \
-    make install && \
-    echo '#!/bin/bash\n\
-         \n\
-         # Default to showing the Ansible version if no command is specified\n\
-         if [ $# -eq 0 ]; then\n\
-             exec sekaid version\n\
-         else\n\
-             exec "$@"\n\
-         fi' > /entrypoint.sh && \ 
-    chmod +x /entrypoint.sh
+    make install 
 
 # Run app
 FROM scratch
@@ -37,14 +28,10 @@ FROM scratch
 ARG DEBIAN_FRONTEND=noninteractive
 
 # Copy artifacts
-COPY --from=builder /sekaid /bin/sekaid
-COPY --from=builder /entrypoint.sh /entrypoint.sh
-
-# Create working dir
-WORKDIR /sekai
+COPY --from=builder /sekaid /sekaid
 
 # Start sekai
-ENTRYPOINT ["/entrypoint.sh"]
+ENTRYPOINT ["/sekai/sekaidCaller"]
 
 # Expose the default Tendermint port
 EXPOSE 26657

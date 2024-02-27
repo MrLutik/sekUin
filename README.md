@@ -5,7 +5,7 @@ Simplified interx and sekai deployment and setup
 
 1. Clone repo
 ```bash
-https://github.com/MrLutik/sekin.github
+git clone https://github.com/MrLutik/sekin.git
 ```
 
 2. Make bootstrap executable
@@ -24,4 +24,10 @@ sudo ./bootstrap.sh
 sudo docker-compose build
 ```
 
+## Initialize new network
 
+1. Init sekai. Available flags [here](https://github.com/MrLutik/kira2.0/blob/development/docs/sekai.md#11-init)
+
+```bash
+sekaid init --overwrite --chain-id=testnet-1 "KIRA TEST LOCAL VALIDATOR NODE" --home=/sekai
+```

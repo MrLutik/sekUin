@@ -16,31 +16,18 @@ RUN wget https://go.dev/dl/go1.22.0.linux-amd64.tar.gz -O /tmp/go.tar.gz && \
 ENV PATH="$PATH:/usr/local/go/bin"
 
 # Cloning interx repo and install
-RUN git clone -c http.postBuffer=1048576000 --depth 1 https://github.com/KiraCore/interx.git /interx && \
-    cd /interx && \
-    make install && \
-    echo '#!/bin/bash\n\
-         \n\
-         # Default to showing the Ansible version if no command is specified\n\
-         if [ $# -eq 0 ]; then\n\
-             exec interxd version\n\
-         else\n\
-             exec "$@"\n\
-         fi' > /entrypoint.sh && \ 
-    chmod +x /entrypoint.sh
+RUN git clone -c http.postBuffer=1048576000 --depth 1 https://github.com/MrLutik/interx.git /interxd && \
+    cd /interxd && \
+    make install 
 
 # Run app
 FROM scratch
 
 # Copy artifacts
-COPY --from=builder /interx /bin/interxd
-COPY --from=builder entrypoint.sh /entrypoint.sh
-
-# Create working dir
-WORKDIR /interx
+COPY --from=builder /interxd /interxd
 
 # Set entrypoint
-ENTRYPOINT ["/entrypoint.sh"]
+ENTRYPOINT ["/interx/interxdCaller"]
 
 EXPOSE 11000
 

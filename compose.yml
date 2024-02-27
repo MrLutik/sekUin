@@ -1,32 +1,43 @@
 services:
   sekaid:
+    depends_on: 
+      - go-builder
     build:
       context: ./
       dockerfile: sekai.Dockerfile
     volumes:
-      - ./sekai:/sekai
+      - ./sekai:/
     ports:
       - "26657:26657" # RPC
       - "26656:26656" # P2P (gRPC)
       - "26660:26660" # Prometheus
-    entrypoint: ["/entrypoint.sh"]
     networks:
       - kiranet
     hostname: sekai.local
 
   interxd:
+    depends_on: 
+      - go-builder
     build:
       context: ./
       dockerfile: interx.Dockerfile
     volumes:
-      - ./interx:/interx
+      - ./interx:/
     ports:
       - "11000:11000"
-    entrypoint: ["/entrypoint.sh"]
     networks:
       - kiranet
     hostname: interx.local
-
+  go-builder:
+    build:
+      context: ./
+      dockerfile: go.Dockerfile
+    volumes:
+      - ./src:/src
+      - ./sekai:/sekai
+      - ./interx:/interx
+    command: >
+      sh -c "CGO_ENABLED=0 go build -a -tags netgo -installsuffix cgo -o /sekai/sekaidCaller /src/sekaidCaller.go && CGO_ENABLED=0 go build -a -tags netgo -installsuffix cgo -o /interx/interxdCaller /src/interxdCaller.go"
 networks:
   kiranet:
     name: kiranet
