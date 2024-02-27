@@ -6,11 +6,13 @@ services:
     volumes:
       - ./sekai:/sekai
     ports:
-      - "26657:26657"
-      - "26656:26656"
+      - "26657:26657" # RPC
+      - "26656:26656" # P2P (gRPC)
+      - "26660:26660" # Prometheus
     entrypoint: ["/entrypoint.sh"]
     networks:
       - kiranet
+    hostname: sekai.local
 
   interxd:
     build:
@@ -23,6 +25,7 @@ services:
     entrypoint: ["/entrypoint.sh"]
     networks:
       - kiranet
+    hostname: interx.local
 
 networks:
   kiranet:
