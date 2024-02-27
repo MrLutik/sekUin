@@ -21,7 +21,7 @@ sudo ./bootstrap.sh
 
 4. Build images
 ```bash
-sudo docker compose build
+sudo docker-compose build
 ```
 
 
