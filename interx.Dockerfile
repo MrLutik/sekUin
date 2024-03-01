@@ -16,8 +16,8 @@ RUN wget https://go.dev/dl/go1.22.0.linux-amd64.tar.gz -O /tmp/go.tar.gz && \
 ENV PATH="$PATH:/usr/local/go/bin"
 
 # Cloning interx repo and install
-RUN git clone -c http.postBuffer=1048576000 --depth 1 https://github.com/MrLutik/interx.git /interx && \
-    cd /interx && \
+RUN git clone -c http.postBuffer=1048576000 --depth 1 https://github.com/MrLutik/interx.git /binterx && \
+    cd /binterx && \
     make install 
 
 # Run app
