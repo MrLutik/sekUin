@@ -24,6 +24,10 @@ sudo ./bootstrap.sh
 sudo docker-compose build
 ```
 
+5. Init all
+```bash
+sudo docker-compose up
+```
 ## Initialize new network
 
 1. Init sekai. Available flags [here](https://github.com/MrLutik/kira2.0/blob/development/docs/sekai.md#11-init)
