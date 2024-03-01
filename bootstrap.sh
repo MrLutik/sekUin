@@ -30,7 +30,7 @@ update_system() {
 # Function to install prerequisites
 install_prerequisites() {
     echo "Installing prerequisites..."
-    apt-get install -y apt-transport-https ca-certificates curl software-properties-common jq || { echo "Failed to install prerequisites. Exiting..."; exit 1; }
+    apt-get install -y apt-transport-https ca-certificates wget curl software-properties-common jq || { echo "Failed to install prerequisites. Exiting..."; exit 1; }
 }
 
 # Function to install Docker
